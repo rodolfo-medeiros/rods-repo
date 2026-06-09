@@ -1,3 +1,4 @@
+
 # TOKEN
 
 Landing page e backend inicial para a marca independente TOKEN.
@@ -18,3 +19,4 @@ python main.py
 ## Ajuste rápido
 
 Defina a variável de ambiente `TOKEN_WHATSAPP_NUMBER` com o número real do WhatsApp antes de publicar.
+
