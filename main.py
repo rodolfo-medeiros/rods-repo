@@ -3,15 +3,19 @@ from __future__ import annotations
 from datetime import datetime
 from urllib.parse import quote_plus
 import os
+from pathlib import Path
 
 from flask import Flask, redirect, render_template, request
 
 
 app = Flask(__name__)
 
+DEFAULT_WHATSAPP_NUMBER = "5535988744958"
+
 
 def build_whatsapp_url(name: str, company: str, email: str, goal: str) -> str:
-	phone = os.getenv("TOKEN_WHATSAPP_NUMBER", "5511999999999")
+	phone_raw = os.getenv("TOKEN_WHATSAPP_NUMBER", DEFAULT_WHATSAPP_NUMBER)
+	phone = "".join(ch for ch in phone_raw if ch.isdigit())
 	message = (
 		f"Oi! Sou {name or 'um contato interessado'} da empresa {company or '—'}. "
 		f"Quero conversar sobre branding para {goal or 'crescimento de marca'}. "
@@ -23,7 +27,10 @@ def build_whatsapp_url(name: str, company: str, email: str, goal: str) -> str:
 @app.get("/")
 def home() -> str:
 	year = datetime.now().year
-	return render_template("index.html", year=year)
+	slides_dir = Path(app.static_folder or "static") / "img" / "pdf-pages"
+	slide_files = sorted(slides_dir.glob("page-*.jpg"))
+	slides = [f"img/pdf-pages/{item.name}" for item in slide_files]
+	return render_template("index.html", year=year, slides=slides)
 
 
 @app.post("/briefing")

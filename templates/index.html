@@ -1,177 +1,76 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TOKEN | Branding independente</title>
-  <meta name="description" content="TOKEN cria identidade, presença e crescimento de marca para negócios independentes.">
+  <title>TOKEN | Deck Original</title>
+  <meta name="description" content="Versao web fiel ao PDF da apresentacao TOKEN.">
   <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='img/token-logo.svg') }}">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-  <div class="page-frame">
-    <header class="topbar">
-      <a class="brand" href="#hero" aria-label="TOKEN">
-        <img src="{{ url_for('static', filename='img/token-logo.svg') }}" alt="Logo TOKEN">
-        <span>TOKEN</span>
-      </a>
-      <nav class="nav">
-        <a href="#servicos">Serviços</a>
-        <a href="#processo">Processo</a>
-        <a href="#contato">Contato</a>
-      </nav>
-    </header>
-
-    <main>
-      <section class="hero" id="hero">
-        <div class="hero__eyebrow">
-          <span>Branding independente</span>
-          <span>{{ year }}</span>
-        </div>
-
-        <div class="hero__content">
-          <p class="hero__tag">Identidade não se cria, se descobre.</p>
-          <h1>TOKEN.</h1>
-          <p class="hero__lead">
-            Marca de branding para negócios que querem sair do genérico, construir presença e transformar percepção em valor.
-          </p>
-
-          <div class="hero__actions">
-            <a class="button button--primary" href="#contato">Pedir briefing</a>
-            <a class="button button--ghost" href="#servicos">Ver direção criativa</a>
-          </div>
-
-          <div class="hero__chips" aria-label="Pilares da marca">
-            <span>Estratégia</span>
-            <span>Identidade</span>
-            <span>Presença</span>
-          </div>
-        </div>
-
-        <aside class="hero__panel">
-          <div>
-            <p class="panel__label">Posicionamento</p>
-            <p class="panel__value">branding para marcas com energia própria</p>
-          </div>
-          <div>
-            <p class="panel__label">Estética</p>
-            <p class="panel__value">editorial, crua e de alto contraste</p>
-          </div>
-          <div>
-            <p class="panel__label">Entrega</p>
-            <p class="panel__value">marca, direção visual e aplicação digital</p>
-          </div>
-        </aside>
+  <main class="pdf-deck" aria-label="Apresentacao TOKEN">
+    {% for slide in slides %}
+      <section class="pdf-slide" id="slide-{{ loop.index }}">
+        <img src="{{ url_for('static', filename=slide) }}" alt="Slide {{ loop.index }} da apresentacao TOKEN" loading="lazy">
       </section>
+    {% endfor %}
+  </main>
 
-      <section class="quick-contact" aria-labelledby="quick-contact-title">
-        <div class="quick-contact__copy">
-          <p class="section-kicker">Formulário rápido</p>
-          <h2 id="quick-contact-title">Deixa seu contato e a TOKEN retorna com uma direção inicial.</h2>
-        </div>
+  <button class="briefing-fab" type="button" id="openBriefing">Pedir briefing</button>
 
-        <form class="quick-contact__form" method="post" action="{{ url_for('briefing') }}">
-          <label>
-            Nome
-            <input type="text" name="name" placeholder="Seu nome">
-          </label>
-          <label>
-            E-mail
-            <input type="email" name="email" placeholder="voce@empresa.com">
-          </label>
-          <label>
-            Marca / projeto
-            <input type="text" name="company" placeholder="Nome da marca">
-          </label>
-          <label>
-            Objetivo
-            <textarea name="goal" rows="3" placeholder="O que você quer construir?"></textarea>
-          </label>
-          <button class="button button--primary button--block" type="submit">Enviar formulário</button>
-        </form>
-      </section>
-
-      <section class="ticker" aria-label="Manifesto">
-        <div class="ticker__track">
-          <span>IDENTIDADE</span>
-          <span>VISÃO</span>
-          <span>FORMA</span>
-          <span>LINGUAGEM</span>
-          <span>GRANDEZA</span>
-          <span>IDENTIDADE</span>
-          <span>VISÃO</span>
-          <span>FORMA</span>
-          <span>LINGUAGEM</span>
-          <span>GRANDEZA</span>
-        </div>
-      </section>
-
-      <section class="split section-glow" id="processo">
-        <div class="split__copy">
-          <p class="section-kicker">Manifesto</p>
-          <h2>Marca forte não se parece com qualquer uma.</h2>
-        </div>
-        <div class="split__text">
-          <p>
-            A TOKEN constrói sistemas de branding que unem clareza estratégica e personalidade visual. O resultado é uma marca que parece viva, memorável e pronta para escalar.
-          </p>
-          <p>
-            O foco é desenhar presença: do conceito à aplicação, com uma linguagem que conversa com cultura, comunidade e produto.
-          </p>
-        </div>
-      </section>
-
-      <section class="services" id="servicos">
-        <article class="service-card service-card--large">
-          <p class="service-card__index">01</p>
-          <h3>Estratégia de marca</h3>
-          <p>Diagnóstico, posicionamento, tom de voz e direção para alinhar a marca ao crescimento.</p>
-        </article>
-        <article class="service-card">
-          <p class="service-card__index">02</p>
-          <h3>Identidade visual</h3>
-          <p>Logo, sistema gráfico, paleta, tipografia e linguagem visual de impacto.</p>
-        </article>
-        <article class="service-card">
-          <p class="service-card__index">03</p>
-          <h3>Aplicação digital</h3>
-          <p>Peças para redes, landing pages e presença online com consistência estética.</p>
-        </article>
-      </section>
-
-      <section class="contact" id="contato">
-        <div class="contact__copy">
-          <p class="section-kicker">Contato</p>
-          <h2>Vamos desenhar a próxima fase da sua marca.</h2>
-          <p>
-            Preencha o briefing e a TOKEN abre a conversa no WhatsApp com a direção inicial do projeto.
-          </p>
-        </div>
-
-        <form class="contact__form" method="post" action="{{ url_for('briefing') }}">
-          <label>
-            Nome
-            <input type="text" name="name" placeholder="Seu nome">
-          </label>
-          <label>
-            Empresa
-            <input type="text" name="company" placeholder="Nome da marca ou negócio">
-          </label>
-          <label>
-            E-mail
-            <input type="email" name="email" placeholder="voce@empresa.com">
-          </label>
-          <label>
-            O que você quer construir?
-            <textarea name="goal" rows="4" placeholder="Ex.: reposicionar a marca, lançar um novo produto, fortalecer presença digital..."></textarea>
-          </label>
-          <button class="button button--primary button--block" type="submit">Abrir WhatsApp</button>
-        </form>
-      </section>
-    </main>
+  <div class="briefing-modal" id="briefingModal" aria-hidden="true">
+    <div class="briefing-modal__backdrop" id="closeBriefingBackdrop"></div>
+    <section class="briefing-panel" role="dialog" aria-modal="true" aria-labelledby="briefingTitle">
+      <button class="briefing-panel__close" type="button" id="closeBriefing" aria-label="Fechar formulario">x</button>
+      <p class="briefing-kicker">Contato</p>
+      <h2 id="briefingTitle">Vamos construir o mapa da sua marca.</h2>
+      <form method="post" action="{{ url_for('briefing') }}" class="briefing-form">
+        <label>
+          Nome
+          <input type="text" name="name" placeholder="Seu nome">
+        </label>
+        <label>
+          Empresa / Time
+          <input type="text" name="company" placeholder="Nome da marca, player ou time">
+        </label>
+        <label>
+          E-mail
+          <input type="email" name="email" placeholder="voce@empresa.com">
+        </label>
+        <label>
+          Objetivo
+          <textarea name="goal" rows="4" placeholder="Ex.: fortalecer patrocinio, diferenciar marca, criar colecao..."></textarea>
+        </label>
+        <button type="submit">Abrir WhatsApp</button>
+      </form>
+    </section>
   </div>
+
+  <script>
+    const openBtn = document.getElementById('openBriefing');
+    const closeBtn = document.getElementById('closeBriefing');
+    const backdrop = document.getElementById('closeBriefingBackdrop');
+    const modal = document.getElementById('briefingModal');
+
+    function openModal() {
+      modal.classList.add('is-open');
+      modal.setAttribute('aria-hidden', 'false');
+    }
+
+    function closeModal() {
+      modal.classList.remove('is-open');
+      modal.setAttribute('aria-hidden', 'true');
+    }
+
+    openBtn.addEventListener('click', openModal);
+    closeBtn.addEventListener('click', closeModal);
+    backdrop.addEventListener('click', closeModal);
+    window.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && modal.classList.contains('is-open')) {
+        closeModal();
+      }
+    });
+  </script>
 </body>
 </html>
