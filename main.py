@@ -3,6 +3,7 @@ from __future__ import annotations
 from datetime import datetime
 from urllib.parse import quote_plus
 import os
+from pathlib import Path
 
 from flask import Flask, redirect, render_template, request
 
@@ -23,7 +24,10 @@ def build_whatsapp_url(name: str, company: str, email: str, goal: str) -> str:
 @app.get("/")
 def home() -> str:
 	year = datetime.now().year
-	return render_template("index.html", year=year)
+	slides_dir = Path(app.static_folder or "static") / "img" / "pdf-pages"
+	slide_files = sorted(slides_dir.glob("page-*.jpg"))
+	slides = [f"img/pdf-pages/{item.name}" for item in slide_files]
+	return render_template("index.html", year=year, slides=slides)
 
 
 @app.post("/briefing")
