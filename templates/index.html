@@ -17,6 +17,12 @@
     {% endfor %}
   </main>
 
+  <div class="gollum-runner" aria-hidden="true">
+    <div class="gollum-runner__track">
+      <img class="gollum-runner__img" src="{{ url_for('static', filename='img/gollum.png') }}" alt="" loading="lazy">
+    </div>
+  </div>
+
   <button class="briefing-fab" type="button" id="openBriefing">Pedir briefing</button>
 
   <div class="briefing-modal" id="briefingModal" aria-hidden="true">
@@ -52,6 +58,29 @@
     const closeBtn = document.getElementById('closeBriefing');
     const backdrop = document.getElementById('closeBriefingBackdrop');
     const modal = document.getElementById('briefingModal');
+    const runnerImg = document.querySelector('.gollum-runner__img');
+    const slideSections = Array.from(document.querySelectorAll('.pdf-slide'));
+
+    const runnerAssets = [
+      {
+        maxSlide: 9,
+        src: "{{ url_for('static', filename='img/gollum.png') }}",
+        className: ''
+      },
+      {
+        maxSlide: 18,
+        src: "{{ url_for('static', filename='img/token-logo.svg') }}",
+        className: 'is-token'
+      },
+      {
+        maxSlide: Number.POSITIVE_INFINITY,
+        src: "{{ url_for('static', filename='img/gollum.png') }}",
+        className: ''
+      }
+    ];
+
+    let currentRunnerSrc = runnerImg ? runnerImg.getAttribute('src') : '';
+    let currentRunnerClass = '';
 
     function openModal() {
       modal.classList.add('is-open');
@@ -66,6 +95,75 @@
     openBtn.addEventListener('click', openModal);
     closeBtn.addEventListener('click', closeModal);
     backdrop.addEventListener('click', closeModal);
+
+    function getAssetForSlide(slideIndex) {
+      return runnerAssets.find((asset) => slideIndex <= asset.maxSlide) || runnerAssets[0];
+    }
+
+    function applyRunnerAsset(slideIndex) {
+      if (!runnerImg) {
+        return;
+      }
+
+      const nextAsset = getAssetForSlide(slideIndex);
+
+      if (nextAsset.src !== currentRunnerSrc) {
+        runnerImg.setAttribute('src', nextAsset.src);
+        currentRunnerSrc = nextAsset.src;
+      }
+
+      if (currentRunnerClass && currentRunnerClass !== nextAsset.className) {
+        runnerImg.classList.remove(currentRunnerClass);
+      }
+
+      if (nextAsset.className && currentRunnerClass !== nextAsset.className) {
+        runnerImg.classList.add(nextAsset.className);
+      }
+
+      currentRunnerClass = nextAsset.className;
+    }
+
+    function detectActiveSlide() {
+      if (!slideSections.length) {
+        return;
+      }
+
+      const viewportMid = window.innerHeight * 0.5;
+      let activeSlide = 1;
+
+      for (const section of slideSections) {
+        const rect = section.getBoundingClientRect();
+        const sectionIndex = Number(section.id.replace('slide-', '')) || 1;
+
+        if (rect.top <= viewportMid) {
+          activeSlide = sectionIndex;
+        }
+
+        if (rect.top <= viewportMid && rect.bottom >= viewportMid) {
+          activeSlide = sectionIndex;
+          break;
+        }
+      }
+
+      applyRunnerAsset(activeSlide);
+    }
+
+    let scrollTicking = false;
+    window.addEventListener('scroll', () => {
+      if (scrollTicking) {
+        return;
+      }
+
+      scrollTicking = true;
+      window.requestAnimationFrame(() => {
+        detectActiveSlide();
+        scrollTicking = false;
+      });
+    }, { passive: true });
+
+    window.addEventListener('resize', detectActiveSlide);
+    detectActiveSlide();
+
     window.addEventListener('keydown', (event) => {
       if (event.key === 'Escape' && modal.classList.contains('is-open')) {
         closeModal();

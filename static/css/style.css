@@ -27,6 +27,70 @@ body {
   height: auto;
 }
 
+.gollum-runner {
+  position: fixed;
+  inset-inline: 0;
+  bottom: 72px;
+  height: clamp(56px, 11vw, 120px);
+  pointer-events: none;
+  z-index: 35;
+  overflow: hidden;
+}
+
+.gollum-runner__track {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  will-change: transform;
+  animation: gollum-cross 16s ease-in-out infinite alternate;
+}
+
+.gollum-runner__img {
+  width: clamp(80px, 10vw, 140px);
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 12px 14px rgba(0, 0, 0, 0.5));
+  animation: gollum-bob 0.8s ease-in-out infinite;
+}
+
+.gollum-runner__img.is-token {
+  width: clamp(60px, 7vw, 92px);
+  filter: drop-shadow(0 0 10px rgba(223, 255, 0, 0.45));
+  animation: token-float 1.25s ease-in-out infinite;
+}
+
+@keyframes gollum-cross {
+  from {
+    transform: translateX(-22vw) scaleX(1);
+  }
+
+  to {
+    transform: translateX(102vw) scaleX(-1);
+  }
+}
+
+@keyframes gollum-bob {
+  from,
+  to {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+@keyframes token-float {
+  from,
+  to {
+    transform: translateY(-2px) rotate(-5deg);
+  }
+
+  50% {
+    transform: translateY(-10px) rotate(6deg);
+  }
+}
+
 .briefing-fab {
   position: fixed;
   right: 18px;
@@ -134,4 +198,17 @@ body {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   cursor: pointer;
+}
+
+@media (max-width: 760px) {
+  .gollum-runner {
+    bottom: 84px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gollum-runner__track,
+  .gollum-runner__img {
+    animation: none;
+  }
 }
