@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Token logo">
+  <circle cx="64" cy="64" r="61" fill="#060913" stroke="#e4e8ee" stroke-width="4"/>
+  <g fill="#dfff00">
+    <rect x="47" y="36" width="34" height="12" rx="1"/>
+    <rect x="47" y="80" width="34" height="12" rx="1"/>
+    <rect x="34" y="49" width="60" height="30" rx="1"/>
+    <rect x="58" y="52" width="12" height="24" fill="#060913" rx="1"/>
+    <rect x="58" y="34" width="12" height="16" fill="#dfff00" rx="1"/>
+    <rect x="58" y="78" width="12" height="16" fill="#dfff00" rx="1"/>
+  </g>
+</svg>

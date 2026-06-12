@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TOKEN | Deck Original</title>
+  <meta name="description" content="Versao web fiel ao PDF da apresentacao TOKEN.">
+  <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='img/token-logo.svg') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <main class="pdf-deck" aria-label="Apresentacao TOKEN">
+    {% for slide in slides %}
+      <section class="pdf-slide" id="slide-{{ loop.index }}">
+        <img src="{{ url_for('static', filename=slide) }}" alt="Slide {{ loop.index }} da apresentacao TOKEN" loading="lazy">
+      </section>
+    {% endfor %}
+  </main>
+
+  <button class="briefing-fab" type="button" id="openBriefing">Pedir briefing</button>
+
+  <div class="briefing-modal" id="briefingModal" aria-hidden="true">
+    <div class="briefing-modal__backdrop" id="closeBriefingBackdrop"></div>
+    <section class="briefing-panel" role="dialog" aria-modal="true" aria-labelledby="briefingTitle">
+      <button class="briefing-panel__close" type="button" id="closeBriefing" aria-label="Fechar formulario">x</button>
+      <p class="briefing-kicker">Contato</p>
+      <h2 id="briefingTitle">Vamos construir o mapa da sua marca.</h2>
+      <form method="post" action="{{ url_for('briefing') }}" class="briefing-form">
+        <label>
+          Nome
+          <input type="text" name="name" placeholder="Seu nome">
+        </label>
+        <label>
+          Empresa / Time
+          <input type="text" name="company" placeholder="Nome da marca, player ou time">
+        </label>
+        <label>
+          E-mail
+          <input type="email" name="email" placeholder="voce@empresa.com">
+        </label>
+        <label>
+          Objetivo
+          <textarea name="goal" rows="4" placeholder="Ex.: fortalecer patrocinio, diferenciar marca, criar colecao..."></textarea>
+        </label>
+        <button type="submit">Abrir WhatsApp</button>
+      </form>
+    </section>
+  </div>
+
+  <script>
+    const openBtn = document.getElementById('openBriefing');
+    const closeBtn = document.getElementById('closeBriefing');
+    const backdrop = document.getElementById('closeBriefingBackdrop');
+    const modal = document.getElementById('briefingModal');
+
+    function openModal() {
+      modal.classList.add('is-open');
+      modal.setAttribute('aria-hidden', 'false');
+    }
+
+    function closeModal() {
+      modal.classList.remove('is-open');
+      modal.setAttribute('aria-hidden', 'true');
+    }
+
+    openBtn.addEventListener('click', openModal);
+    closeBtn.addEventListener('click', closeModal);
+    backdrop.addEventListener('click', closeModal);
+    window.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && modal.classList.contains('is-open')) {
+        closeModal();
+      }
+    });
+  </script>
+</body>
+</html>
